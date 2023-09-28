@@ -21,6 +21,9 @@ ADAFRUIT_IO_KEY     = 'key'
 # ============= FEEDs ============= #
 TOGGLE_FEED_ID_1      = 'rele_ar_condicionado'
 TOGGLE_FEED_ID_2      = 'rele_geladeira'
+TOGGLE_FEED_ID_3 = 'motor'
+TOGGLE_FEED_ID_4 = 'led_entrada'
+TOGGLE_FEED_ID_5 = 'led_sotao'
 TEMP_FEED_ID      = 'temp'
 HUM_FEED_ID      = 'hum'
 
@@ -60,8 +63,11 @@ def cb(topic, msg):                             # Callback function
         
 temp_feed = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TEMP_FEED_ID), 'utf-8') # format - techiesms/feeds/temp
 hum_feed = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, HUM_FEED_ID), 'utf-8') # format - techiesms/feeds/hum   
-toggle_feed_1 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID_1), 'utf-8') # format - techiesms/feeds/led1
-toggle_feed_2 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID_2), 'utf-8') # format - techiesms/feeds/led1
+toggle_feed_1 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID_1), 'utf-8') # format - techiesms/feeds/ar
+toggle_feed_2 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID_2), 'utf-8') # format - techiesms/feeds/geladeira
+toggle_feed_3 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID_3), 'utf-8') # format - techiesms/feeds/motor
+toggle_feed_4 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID_4), 'utf-8') # format - techiesms/feeds/motor
+toggle_feed_5 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID_5), 'utf-8') # format - techiesms/feeds/motor
 
 client.set_callback(cb)      # Callback function               
 client.subscribe(toggle_feed_1) # Subscribing to particular topic
