@@ -71,8 +71,20 @@ toggle_feed_5 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID
 
 client.set_callback(cb)      # Callback function               
 client.subscribe(toggle_feed_1) # Subscribing to particular topic
+client.subscribe(toggle_feed_2)
+client.subscribe(toggle_feed_3)
+client.subscribe(toggle_feed_4)
+client.subscribe(toggle_feed_5)
+client.subscribe(temp_feed)
+client.subscribe(hum_feed)
 
-
+client.publish(temp_feed,bytes(str(temp), 'utf-8'),qos=0)   # Publishing Temprature to adafruit.ioqos=0)
+client.publish(hum_feed,bytes(str(hum), 'utf-8'),qos=0)   # Publishing humity to adafruit.ioqos=0)
+client.publish(toggle_feed_1,bytes(str(ar_condicionado), 'utf-8'),qos=0)
+client.publish(toggle_feed_2,bytes(str(geladeira), 'utf-8'),qos=0)
+client.publish(toggle_feed_3,bytes(str(motor), 'utf-8'),qos=0)
+client.publish(toggle_feed_4,bytes(str(led_entrada), 'utf-8'),qos=0)
+client.publish(toggle_feed_5,bytes(str(led_sotao), 'utf-8'),qos=0)
 
         
 
