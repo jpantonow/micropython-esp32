@@ -19,8 +19,8 @@ ADAFRUIT_USERNAME   = 'user'
 ADAFRUIT_IO_KEY     = 'key'
 
 # ============= FEEDs ============= #
-TOGGLE_FEED_ID_1      = 'rele_ar_condicionado'
-TOGGLE_FEED_ID_2      = 'rele_geladeira'
+TOGGLE_FEED_ID_1      = 'ar_condicionado'
+TOGGLE_FEED_ID_2      = 'geladeira'
 TOGGLE_FEED_ID_3 = 'motor'
 TOGGLE_FEED_ID_4 = 'led_entrada'
 TOGGLE_FEED_ID_5 = 'led_sotao'
