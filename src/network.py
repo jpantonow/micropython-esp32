@@ -15,8 +15,8 @@ WIFI_PASSWORD = ''
 mqtt_client_id      = bytes('client_'+'12321', 'utf-8') # Just a random client ID
 
 ADAFRUIT_IO_URL     = 'io.adafruit.com' 
-ADAFRUIT_USERNAME   = 'user'
-ADAFRUIT_IO_KEY     = 'key'
+ADAFRUIT_USERNAME   = 'jpgomes'
+ADAFRUIT_IO_KEY     = 'aio_vuMx53el1tc7X4IlJTuNxbhPdUxZ'
 
 # ============= FEEDs ============= #
 TOGGLE_FEED_ID_1      = 'ar_condicionado'
@@ -76,28 +76,28 @@ client.subscribe(toggle_feed_1) # Subscribing to particular topic
 
         
 
-def sens_data(data):
+# def sens_data(data):
     
-    sensor.measure()                    # Measuring 
-    temp = sensor.temperature()         # getting Temp
-    hum = sensor.humidity()
-    client.publish(temp_feed,    
-                  bytes(str(temp), 'utf-8'),   # Publishing Temprature to adafruit.io
-                  qos=0)
+#     sensor.measure()                    # Measuring 
+#     temp = sensor.temperature()         # getting Temp
+#     hum = sensor.humidity()
+#     client.publish(temp_feed,    
+#                   bytes(str(temp), 'utf-8'),   # Publishing Temprature to adafruit.io
+#                   qos=0)
     
-    client.publish(hum_feed,    
-                  bytes(str(hum), 'utf-8'),   # Publishing Temprature to adafruit.io
-                  qos=0)
-    print("Temp - ", str(temp))
-    print("Hum - " , str(hum))
-    print('Msg sent')
+#     client.publish(hum_feed,    
+#                   bytes(str(hum), 'utf-8'),   # Publishing Temprature to adafruit.io
+#                   qos=0)
+#     print("Temp - ", str(temp))
+#     print("Hum - " , str(hum))
+#     print('Msg sent')
     
-timer = Timer(0)
-timer.init(period=5000, mode=Timer.PERIODIC, callback = sens_data)
+# timer = Timer(0)
+# timer.init(period=5000, mode=Timer.PERIODIC, callback = sens_data)
 
-while True:
-    try:
-        client.check_msg()                  # non blocking function
-    except :
-        client.disconnect()
-        sys.exit()
+# while True:
+#     try:
+#         client.check_msg()                  # non blocking function
+#     except :
+#         client.disconnect()
+#         sys.exit()
