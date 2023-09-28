@@ -4,5 +4,5 @@ import dht11
 import leds
 import rele
 
-def rotina():
+# def rotina():
   
