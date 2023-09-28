@@ -3,8 +3,8 @@ from lib.lcd_api import LcdApi
 import time
 class Leds:
     def __init__(self):
-        LCD_ENTRADA = 0x26
-        LCD_SOTAO = 0x27
+        LCD_ENTRADA = 0x26 #Entrada
+        LCD_SOTAO = 0x27 #Sotao
         totalRows = 2
         totalColumns = 16
         self.i2c = SoftI2C(scl = Pin(22), sda = Pin(21), freq = 10000)

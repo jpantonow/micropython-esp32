@@ -1,3 +1,4 @@
+#Cozinha
 import machine
 import time
 import dht
