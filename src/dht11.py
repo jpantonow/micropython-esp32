@@ -8,7 +8,7 @@ import dht
 temperatura = 0
 humidade = 0
 #Declara onde esta conectado o sensor DHT22
-sensor = dht.DHT22(machine.Pin(12))
+sensor = dht.DHT11(machine.Pin(12))
 
 
 def medir():
