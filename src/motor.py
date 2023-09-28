@@ -17,14 +17,14 @@ motor.move(0)
 while True:
     if button.value() == 0:  # Botão pressionado
       if porta == 0: #Se a porta estiver fechada vamos abrir
-        print("Botão pressionado! Abrindo a porta...")
+        #print("Botão pressionado! Abrindo a porta...")
         # Movendo o servo para 180 graus
         motor.move(90)
         sleep(1)
         porta = 1 #Porta Aberta
 
       else:
-        print("Botão pressionado! Fechando a porta...")
+        #print("Botão pressionado! Fechando a porta...")
         # Movendo o servo para 0 graus
         motor.move(0)
         sleep(1)

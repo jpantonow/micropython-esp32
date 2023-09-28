@@ -39,8 +39,8 @@ while True:
     print("Leitura ADC: {}, Concentração de CO2: {:.2f} ppm".format(adc_value, co2_ppm))
     
     # Verificar níveis anormais de CO2 (indicador de incêndio)
-    if co2_ppm > 5000:  # O limite pode variar dependendo do ambiente
-        print("Nível de CO2 anormalmente alto! Possível incêndio!")
+    if co2_ppm > co2_ppm*1.5: #5000:  # O limite pode variar dependendo do ambiente
+        #print("Nível de CO2 anormalmente alto! Possível incêndio!")
         led.on()  # Acender o LED interno
     else:
         led.off()  # Apagar o LED interno
