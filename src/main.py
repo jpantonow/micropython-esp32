@@ -1,3 +1,6 @@
+#trocar para dht11
+#dht nao ta funcionando na ESP
+
 from i2c_lcd import I2cLcd
 from lcd_api import LcdApi
 from machine import SoftI2C, Pin, Timer, ADC
