@@ -14,6 +14,8 @@ totalRows = 2
 totalColumns = 16
 i2c = SoftI2C(scl = Pin(22), sda = Pin(21), freq = 10000)
 lcd_entrada = I2cLcd(i2c,LCD_ENTRADA,totalRows,totalColumns)
+lcd_sotao = I2cLcd(i2c,LCD_SOTAO,totalRows,totalColumns)
+
 
 RELE1_PIN = 25 #Ar Condicionado
 RELE2_PIN = 26 #Geladeira
@@ -36,9 +38,23 @@ def cb(topic,msg):
         if msg == b"0":
             lcd_entrada.clear()
         if msg == b"1":
-                lcd_entrada.putstr("Bem vindo!")
-                time.sleep(2)
-
+            lcd_entrada.putstr("Bem vindo!")
+            time.sleep(2)
+    if topic == b"jpgomes/feeds/led_sotao":
+        if msg == b"0":
+            lcd_sotao.clear()
+        if msg == b"1":
+            lcd_sotao.putstr("Hoje está quente!")
+            time.sleep(2)
+    if topic == b"jpgomes/feeds/motor":
+        if msg == b"0":
+        if msg == b"1":
+    if topic == b"jpgomes/feeds/temp":
+        if msg == b"0":
+        if msg == b"1":
+    if topic == b"jpgomes/feeds/hum":
+        if msg == b"0":
+        if msg == b"1":
 
 sensor = dht.DHT22(Pin(15))                  # DHT11 Sensor on Pin 4 of ESP32
 
