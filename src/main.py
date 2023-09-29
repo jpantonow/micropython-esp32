@@ -51,7 +51,7 @@ def cb(topic,msg):
     #     if msg == b"1":
 
 
-sensor = dht.DHT22(Pin(15))                  # DHT11 Sensor on Pin 4 of ESP32
+sensor = dht.DHT11(Pin(15))                  # DHT11 Sensor on Pin 4 of ESP32
 
 led=Pin(2,Pin.OUT)                          # Onboard LED on Pin 2 of ESP32
 
