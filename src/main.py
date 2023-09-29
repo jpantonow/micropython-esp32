@@ -1,6 +1,6 @@
 from i2c_lcd import I2cLcd
 from lcd_api import LcdApi
-from machine import SoftI2C, Pin, Timer
+from machine import SoftI2C, Pin, Timer, ADC
 import machine
 import network
 import time
@@ -37,6 +37,33 @@ button = Pin(button_pin, Pin.IN, Pin.PULL_UP)
 
 # Posição inicial do servo
 motor.move(0)
+
+# Configuração do ADC para o MQ-135 no pino GPIO 34
+mq135 = ADC(Pin(34))
+mq135.atten(ADC.ATTN_11DB)  # Configura a atenuação para uma faixa de 0-3.3V
+
+# Configuração do LED interno no pino GPIO 2
+led = Pin(2, Pin.OUT)
+
+# Variáveis para calibração
+calibration_time = 60  # 60 segundos para calibração
+calibration_sum = 0
+calibration_count = 0
+
+# Realiza a calibração durante os primeiros 60 segundos
+print("Calibrando sensor MQ-135. Por favor, aguarde...")
+start_time = time()
+while time() - start_time < calibration_time:
+    calibration_sum += mq135.read()
+    calibration_count += 1
+    sleep(1)
+calibration_avg = calibration_sum / calibration_count
+print("Calibração concluída. Valor médio: ", calibration_avg)
+
+# Função para calcular a concentração de CO2 (aproximada)
+def calculate_ppm(adc_value, calibration_value):
+    return ((float(adc_value) / calibration_value) - 0.42) * (10000 / 0.92)/10
+
 
 def cb(topic,msg):
     if topic == b"jpgomes/feeds/ar_condicionado":
