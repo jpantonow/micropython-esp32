@@ -109,8 +109,8 @@ WIFI_PASSWORD = ''
 mqtt_client_id      = bytes('client_'+'12321', 'utf-8') # Just a random client ID
 
 ADAFRUIT_IO_URL     = 'io.adafruit.com' 
-ADAFRUIT_USERNAME   = 'jpgomes'
-ADAFRUIT_IO_KEY     = 'aio_vuMx53el1tc7X4IlJTuNxbhPdUxZ'
+ADAFRUIT_USERNAME   = #'user'
+ADAFRUIT_IO_KEY     = #'key'
 
 # ============= FEEDs ============= #
 TOGGLE_FEED_ID_1      = 'ar_condicionado'
