@@ -121,6 +121,28 @@ client.subscribe(toggle_feed_5)
 client.subscribe(temp_feed)
 client.subscribe(hum_feed)
 
+client.publish(temp_feed,bytes(str(temp), 'utf-8'),qos=0)   # Publishing Temprature to adafruit.ioqos=0)
+client.publish(hum_feed,bytes(str(hum), 'utf-8'),qos=0)   # Publishing humity to adafruit.ioqos=0)
+
+def sens_data(data):
+    
+    sensor.measure()                    # Measuring 
+    temp = sensor.temperature()         # getting Temp
+    hum = sensor.humidity()
+    client.publish(temp_feed,    
+                  bytes(str(temp), 'utf-8'),   # Publishing Temprature to adafruit.io
+                  qos=0)
+    
+    client.publish(hum_feed,    
+                  bytes(str(hum), 'utf-8'),   # Publishing Temprature to adafruit.io
+                  qos=0)
+    print("Temp - ", str(temp))
+    print("Hum - " , str(hum))
+    print('Msg sent')
+    
+timer = Timer(0)
+timer.init(period=5000, mode=Timer.PERIODIC, callback = sens_data)
+
 while True:
     try:
         client.check_msg()                  # non blocking function
