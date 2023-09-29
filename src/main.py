@@ -1,4 +1,6 @@
-from machine import Pin, Timer
+from i2c_lcd import I2cLcd
+from lcd_api import LcdApi
+from machine import SoftI2C, Pin, Timer
 import machine
 import network
 import time
@@ -6,10 +8,19 @@ from umqtt.robust import MQTTClient
 import sys #Utilizado para terminar o programa
 import dht
 
+LCD_ENTRADA = 0x27 #Entrada
+LCD_SOTAO = 0x22 #Sotao
+totalRows = 2
+totalColumns = 16
+i2c = SoftI2C(scl = Pin(22), sda = Pin(21), freq = 10000)
+lcd_entrada = I2cLcd(i2c,LCD_ENTRADA,totalRows,totalColumns)
+
 RELE1_PIN = 25 #Ar Condicionado
 RELE2_PIN = 26 #Geladeira
 rele1 = machine.Pin(RELE1_PIN, machine.Pin.OUT)
 rele2 = machine.Pin(RELE2_PIN, machine.Pin.OUT)
+
+
 def cb(topic,msg):
     if topic == b"jpgomes/feeds/ar_condicionado":
         if msg ==b"0":
@@ -21,23 +32,14 @@ def cb(topic,msg):
             rele2.value(0)
         if msg == b"1":
             rele2.value(1)
+    if topic == b"jpgomes/feeds/led_entrada":
+        if msg == b"0":
+            lcd_entrada.clear()
+        if msg == b"1":
+                lcd_entrada.putstr("Bem vindo!")
+                time.sleep(2)
 
-# def rele1_cb(topic, msg):                           # Callback function
-#     print('Received Data:  Topic = {}, Msg = {}'.format(topic, msg))
-#     recieved_data = str(msg,'utf-8')            #   Recieving Data
-#     if recieved_data=="0":
-#         rele1.value(0)
-#     if recieved_data=="1":
-#         rele1.value(1)
 
-# def rele2_cb(topic, msg):                             # Callback function
-#     print('Received Data:  Topic = {}, Msg = {}'.format(topic, msg))
-#     recieved_data = str(msg,'utf-8')            #   Recieving Data
-#     if recieved_data=="0":
-#         rele2.value(0)
-#     if recieved_data=="1":
-#         rele2.value(1)
-        
 sensor = dht.DHT22(Pin(15))                  # DHT11 Sensor on Pin 4 of ESP32
 
 led=Pin(2,Pin.OUT)                          # Onboard LED on Pin 2 of ESP32
