@@ -63,15 +63,15 @@ def cb(topic,msg):
             time.sleep(2)
     if topic == b"jpgomes/feeds/motor":
         if msg == b"0":
-            if porta == 0:
-                motor.move(90)
-                sleep(1)
-                porta = 1
+            #if porta == 0:
+            motor.move(90)
+            sleep(1)
+            porta = 1
         if msg == b"1":
-            if porta == 1:
-                motor.move(0)
-                sleep(1)
-                porta = 0
+            #if porta == 1:
+            motor.move(0)
+            sleep(1)
+            porta = 0
 
 
 sensor = dht.DHT11(Pin(15))                  # DHT11 Sensor on Pin 4 of ESP32
@@ -164,22 +164,22 @@ timer.init(period=5000, mode=Timer.PERIODIC, callback = sens_data)
 while True:
     try:
         client.check_msg()
-        if button.value() == 0:  # Botão pressionado
-            if porta == 0: #Se a porta estiver fechada vamos abrir
-                print("Botão pressionado! Abrindo a porta...")
-                # Movendo o servo para 180 graus
-                motor.move(90)
-                sleep(1)
-                porta = 1 #Porta Aberta
-                continue
+        # if button.value() == 0:  # Botão pressionado
+        #     if porta == 0: #Se a porta estiver fechada vamos abrir
+        #         print("Botão pressionado! Abrindo a porta...")
+        #         # Movendo o servo para 180 graus
+        #         motor.move(90)
+        #         sleep(1)
+        #         porta = 1 #Porta Aberta
+        #         continue
 
-            else:
-                print("Botão pressionado! Fechando a porta...")
-                # Movendo o servo para 0 graus
-                motor.move(0)
-                sleep(1)
-                porta = 0 #Porta Aberta
-                continue                  # non blocking function
+        #     else:
+        #         print("Botão pressionado! Fechando a porta...")
+        #         # Movendo o servo para 0 graus
+        #         motor.move(0)
+        #         sleep(1)
+        #         porta = 0 #Porta Aberta
+        #         continue                  # non blocking function
     except :
         client.disconnect()
         sys.exit()
