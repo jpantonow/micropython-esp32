@@ -3,6 +3,6 @@ from motor import *
 from dht11 import *
 from leds import *
 from rele import *
-rele()
+
 # def rotina():
   
