@@ -46,23 +46,20 @@ mq135.atten(ADC.ATTN_11DB)  # Configura a atenuação para uma faixa de 0-3.3V
 led = Pin(2, Pin.OUT)
 
 # Variáveis para calibração
-calibration_time = 60  # 60 segundos para calibração
+calibration_time = 5  # 60 segundos para calibração
 calibration_sum = 0
 calibration_count = 0
-
+calibration_avg = 0
+adc_value = 0
 # Realiza a calibração durante os primeiros 60 segundos
 print("Calibrando sensor MQ-135. Por favor, aguarde...")
-start_time = time()
-while time() - start_time < calibration_time:
+start_time = time.time()
+while time.time() - start_time < calibration_time:
     calibration_sum += mq135.read()
     calibration_count += 1
-    sleep(1)
+    time.sleep(1)
 calibration_avg = calibration_sum / calibration_count
 print("Calibração concluída. Valor médio: ", calibration_avg)
-
-# Função para calcular a concentração de CO2 (aproximada)
-def calculate_ppm(adc_value, calibration_value):
-    return ((float(adc_value) / calibration_value) - 0.42) * (10000 / 0.92)/10
 
 
 def cb(topic,msg):
@@ -173,11 +170,18 @@ client.subscribe(mq135_feed)
 client.publish(temp_feed,bytes("0", 'utf-8'),qos=0)   # Publishing Temprature to adafruit.ioqos=0)
 client.publish(hum_feed,bytes("0", 'utf-8'),qos=0)   # Publishing humity to adafruit.ioqos=0)
 client.publish(mq135_feed, bytes("0", 'utf-8'), qos=0)
+def calculate_ppm(adc_value, calibration_value):
+    return ((float(adc_value) / calibration_value) - 0.42) * (10000 / 0.92)/10
+
 def sens_data(data):
     
     sensor.measure()                    # Measuring 
     temp = sensor.temperature()         # getting Temp
     hum = sensor.humidity()
+    adc_value = mq135.read()
+    ppm = (int(calculate_ppm(adc_value,calibration_avg)))/100
+
+    client.publish(mq135_feed,bytes(str(ppm), 'utf-8'), qos = 0)
     client.publish(temp_feed,    
                   bytes(str(temp), 'utf-8'),   # Publishing Temprature to adafruit.io
                   qos=0)
@@ -187,10 +191,14 @@ def sens_data(data):
                   qos=0)
     print("Temp - ", str(temp))
     print("Hum - " , str(hum))
+    print("Ppm - ", str(ppm))
     print('Msg sent')
-    
+
+# Função para calcular a concentração de CO2 (aproximada)
+
 timer = Timer(0)
-timer.init(period=5000, mode=Timer.PERIODIC, callback = sens_data)
+timer.init(period=500, mode=Timer.PERIODIC, callback = sens_data)
+
 
 while True:
     try:
