@@ -171,13 +171,15 @@ while True:
                 motor.move(90)
                 sleep(1)
                 porta = 1 #Porta Aberta
+                continue
 
             else:
                 print("Botão pressionado! Fechando a porta...")
                 # Movendo o servo para 0 graus
                 motor.move(0)
                 sleep(1)
-                porta = 0 #Porta Aberta                  # non blocking function
+                porta = 0 #Porta Aberta
+                continue                  # non blocking function
     except :
         client.disconnect()
         sys.exit()
