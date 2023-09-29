@@ -7,6 +7,10 @@ import time
 from umqtt.robust import MQTTClient
 import sys #Utilizado para terminar o programa
 import dht
+#Garagem de Bike
+from machine import Pin, PWM
+from servo import Servo
+from time import sleep
 
 LCD_ENTRADA = 0x27 #Entrada
 LCD_SOTAO = 0x26 #Sotao
@@ -22,6 +26,17 @@ RELE2_PIN = 26 #Geladeira
 rele1 = machine.Pin(RELE1_PIN, machine.Pin.OUT)
 rele2 = machine.Pin(RELE2_PIN, machine.Pin.OUT)
 
+
+# Definindo os pinos
+motor = Servo(pin=13) # Pino onde o servo está conectado
+button_pin = 14 # Pino onde o botão está conectado
+porta = 0       #0 => Fechada; 1 => Aberta
+
+# Configurando o botão
+button = Pin(button_pin, Pin.IN, Pin.PULL_UP)
+
+# Posição inicial do servo
+motor.move(0)
 
 def cb(topic,msg):
     if topic == b"jpgomes/feeds/ar_condicionado":
@@ -46,9 +61,17 @@ def cb(topic,msg):
         if msg == b"1":
             lcd_sotao.putstr("Hoje está quente!")
             time.sleep(2)
-    # if topic == b"jpgomes/feeds/motor":
-    #     if msg == b"0":
-    #     if msg == b"1":
+    if topic == b"jpgomes/feeds/motor":
+        if msg == b"0":
+            if porta == 0:
+                motor.move(90)
+                sleep(1)
+                porta = 1
+        if msg == b"1":
+            if porta == 1:
+                motor.move(0)
+                sleep(1)
+                porta = 0
 
 
 sensor = dht.DHT22(Pin(15))                  # DHT11 Sensor on Pin 4 of ESP32
@@ -140,7 +163,21 @@ timer.init(period=5000, mode=Timer.PERIODIC, callback = sens_data)
 
 while True:
     try:
-        client.check_msg()                  # non blocking function
+        client.check_msg()
+        if button.value() == 0:  # Botão pressionado
+            if porta == 0: #Se a porta estiver fechada vamos abrir
+                print("Botão pressionado! Abrindo a porta...")
+                # Movendo o servo para 180 graus
+                motor.move(90)
+                sleep(1)
+                porta = 1 #Porta Aberta
+
+            else:
+                print("Botão pressionado! Fechando a porta...")
+                # Movendo o servo para 0 graus
+                motor.move(0)
+                sleep(1)
+                porta = 0 #Porta Aberta                  # non blocking function
     except :
         client.disconnect()
         sys.exit()
