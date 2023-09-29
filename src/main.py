@@ -1,8 +1,8 @@
-import network_nosso
-import motor
-import dht11
-import leds
-import rele
-
+from network_nosso import *
+from motor import *
+from dht11 import *
+from leds import *
+from rele import *
+rele()
 # def rotina():
   
