@@ -107,15 +107,7 @@ button = Pin(button_pin, Pin.IN, Pin.PULL_UP)
 # Posição inicial do servo
 motor.move(0)
 
-def ligar_motor(topic,msg):
-    print('Received Data:  Topic = {}, Msg = {}'.format(topic, msg))
-    recieved_data = str(msg,'utf-8')            #   Recieving Data
-    if recieved_data=="0":
-        motor.move(0)
-    if recieved_data=="1":
-        motor.move(90)
 
-client.set_callback(ligar_motor)  
 #timer = Timer(0)
 #timer.init(period=5000, mode=Timer.PERIODIC, callback = sens_data)
 
