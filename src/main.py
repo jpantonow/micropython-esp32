@@ -9,7 +9,7 @@ import sys #Utilizado para terminar o programa
 import dht
 
 LCD_ENTRADA = 0x27 #Entrada
-LCD_SOTAO = 0x22 #Sotao
+LCD_SOTAO = 0x26 #Sotao
 totalRows = 2
 totalColumns = 16
 i2c = SoftI2C(scl = Pin(22), sda = Pin(21), freq = 10000)
@@ -46,15 +46,10 @@ def cb(topic,msg):
         if msg == b"1":
             lcd_sotao.putstr("Hoje está quente!")
             time.sleep(2)
-    if topic == b"jpgomes/feeds/motor":
-        if msg == b"0":
-        if msg == b"1":
-    if topic == b"jpgomes/feeds/temp":
-        if msg == b"0":
-        if msg == b"1":
-    if topic == b"jpgomes/feeds/hum":
-        if msg == b"0":
-        if msg == b"1":
+    # if topic == b"jpgomes/feeds/motor":
+    #     if msg == b"0":
+    #     if msg == b"1":
+
 
 sensor = dht.DHT22(Pin(15))                  # DHT11 Sensor on Pin 4 of ESP32
 
@@ -121,8 +116,8 @@ client.subscribe(toggle_feed_5)
 client.subscribe(temp_feed)
 client.subscribe(hum_feed)
 
-client.publish(temp_feed,bytes(str(temp), 'utf-8'),qos=0)   # Publishing Temprature to adafruit.ioqos=0)
-client.publish(hum_feed,bytes(str(hum), 'utf-8'),qos=0)   # Publishing humity to adafruit.ioqos=0)
+client.publish(temp_feed,bytes("0", 'utf-8'),qos=0)   # Publishing Temprature to adafruit.ioqos=0)
+client.publish(hum_feed,bytes("0", 'utf-8'),qos=0)   # Publishing humity to adafruit.ioqos=0)
 
 def sens_data(data):
     
