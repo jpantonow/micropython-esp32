@@ -1,5 +1,7 @@
 from lib.i2c_lcd import I2cLcd
 from lib.lcd_api import LcdApi
+from machine import SoftI2C, Pin
+
 import time
 
 LCD_ENTRADA = 0x26 #Entrada

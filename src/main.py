@@ -7,18 +7,37 @@ import sys #Utilizado para terminar o programa
 import dht
 
 RELE1_PIN = 25 #Ar Condicionado
-#RELE2_PIN = 26 #Geladeira
+RELE2_PIN = 26 #Geladeira
 rele1 = machine.Pin(RELE1_PIN, machine.Pin.OUT)
-#rele2 = machine.Pin(RELE2_PIN, machine.Pin.OUT)
+rele2 = machine.Pin(RELE2_PIN, machine.Pin.OUT)
+def cb(topic,msg):
+    if topic == b"jpgomes/feeds/ar_condicionado":
+        if msg ==b"0":
+            rele1.value(0)
+        if msg == b"1": 
+            rele1.value(1)
+    if topic == b"jpgomes/feeds/geladeira":
+        if msg == b"0":
+            rele2.value(0)
+        if msg == b"1":
+            rele2.value(1)
 
-def rele1_cb(topic, msg):                             # Callback function
-    print('Received Data:  Topic = {}, Msg = {}'.format(topic, msg))
-    recieved_data = str(msg,'utf-8')            #   Recieving Data
-    if recieved_data=="0":
-        rele1.value(0)
-    if recieved_data=="1":
-        rele1.value(1)
+# def rele1_cb(topic, msg):                           # Callback function
+#     print('Received Data:  Topic = {}, Msg = {}'.format(topic, msg))
+#     recieved_data = str(msg,'utf-8')            #   Recieving Data
+#     if recieved_data=="0":
+#         rele1.value(0)
+#     if recieved_data=="1":
+#         rele1.value(1)
 
+# def rele2_cb(topic, msg):                             # Callback function
+#     print('Received Data:  Topic = {}, Msg = {}'.format(topic, msg))
+#     recieved_data = str(msg,'utf-8')            #   Recieving Data
+#     if recieved_data=="0":
+#         rele2.value(0)
+#     if recieved_data=="1":
+#         rele2.value(1)
+        
 sensor = dht.DHT22(Pin(15))                  # DHT11 Sensor on Pin 4 of ESP32
 
 led=Pin(2,Pin.OUT)                          # Onboard LED on Pin 2 of ESP32
@@ -73,8 +92,9 @@ toggle_feed_2 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID
 toggle_feed_3 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID_3), 'utf-8') # format - techiesms/feeds/motor
 toggle_feed_4 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID_4), 'utf-8') # format - techiesms/feeds/motor
 toggle_feed_5 = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, TOGGLE_FEED_ID_5), 'utf-8') # format - techiesms/feeds/motor
-
-client.set_callback(rele1_cb)      # Callback function               
+client.set_callback(cb)
+# client.set_callback(rele1_cb)
+# client.set_callback(rele2_cb)               
 client.subscribe(toggle_feed_1) # Subscribing to particular topic
 client.subscribe(toggle_feed_2)
 client.subscribe(toggle_feed_3)
